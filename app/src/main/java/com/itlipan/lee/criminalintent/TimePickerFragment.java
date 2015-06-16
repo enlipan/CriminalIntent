@@ -59,13 +59,7 @@ public class TimePickerFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (getTargetFragment()==null){
-                            return ;
-                        }
-
-                        Intent i = new Intent();
-                        i.putExtra(EXTRA_TIME,mDate);
-                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_FIRST_USER, i);
+                        sendresult(Activity.RESULT_FIRST_USER);
                     }
                 })
                 .create();
@@ -81,6 +75,19 @@ public class TimePickerFragment extends DialogFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    //send date to CrimeFragment
+    //use  different resultcode to distinguish updatetime or updatedate
+    private  void sendresult(int resultCode){
+        if (getTargetFragment()==null){
+            return ;
+        }
+
+        Intent i = new Intent();
+        i.putExtra(EXTRA_TIME,mDate);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
+
     }
 
 }
