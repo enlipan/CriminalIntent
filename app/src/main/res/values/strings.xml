@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CriminalIntent</string>
     <string name="action_settings">Setting</string>
@@ -12,4 +13,27 @@
     <string name="crime_tittle">Crimes</string>
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
+
+    <string name="new_crime">New Crime</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle">If you see something,say something!</string>
+    <string name="delete_crime">Delete</string>
+    <string name="take">Take Photo</string>
+
+    <string name="listview_empty">Nothing</string>
+
+    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="crime_report_text">Send Crime Report</string>
+    
+    <string name="crime_report" formatted="false">%1s!
+    the crime was discovered on %2$s. %3$s, and %4$s</string>
+
+    <string name="crime_report_solved">the case is solved</string>
+    <string name="crime_report_unsolved">the case is unsolved</string>
+    <string name="crime_report_no_suspect">there is no suspect</string>
+    <string name="crime_report_subject">CrimeinalIntent</string>
+    <string name="crime_report_suspect" formatted="false">the suspect is %1s.</string>
+    <string name="send_report">Send crime report via</string>
+
 </resources>

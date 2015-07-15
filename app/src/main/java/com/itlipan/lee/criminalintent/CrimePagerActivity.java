@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
  * Created by Lee on 2015/6/15.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends ActionBarActivity {
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
