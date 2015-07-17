@@ -17,7 +17,7 @@ import java.util.UUID;
  * Created by Lee on 2015/6/15.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class CrimePagerActivity extends ActionBarActivity {
+public class CrimePagerActivity extends ActionBarActivity implements CrimeFragment.Callbacks {
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
@@ -74,6 +74,11 @@ public class CrimePagerActivity extends ActionBarActivity {
                 break;
             }
         }
+
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
 
     }
 }

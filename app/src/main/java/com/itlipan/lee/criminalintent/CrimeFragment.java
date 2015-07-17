@@ -55,6 +55,13 @@ public class CrimeFragment extends Fragment {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Button mSuspectButton;
+    private Button mPhoneCallButton;
+    private Callbacks mCallbacks;
+
+
+    public interface Callbacks{
+        void onCrimeUpdated(Crime crime);
+    }
 
     private  String getCrimeReport(){
         String solvedString = null;
@@ -137,6 +144,20 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks =null;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         showPhoto();
@@ -197,6 +218,8 @@ public class CrimeFragment extends Fragment {
         mTitleField.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 mCrime.setTitle(c.toString());
+                mCallbacks.onCrimeUpdated(mCrime);
+                getActivity().setTitle(mCrime.getTitle());
             }
 
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
@@ -241,6 +264,7 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // set the crime's solved property
                 mCrime.setSolved(isChecked);
+                mCallbacks.onCrimeUpdated(mCrime);
             }
         });
         Button reportButton = (Button) v.findViewById(R.id.crime_reportButton);
@@ -262,12 +286,26 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-                startActivityForResult(i,REQUEST_CONTECT);
+                if (CheckIsIntentCanBeResponse.newInstance(getActivity()).isIntentCanBeResponse(i)) {
+                    startActivityForResult(i, REQUEST_CONTECT);
+                }
             }
         });
         if (mCrime.getSuspect()!=null){
             mSuspectButton.setText(mCrime.getSuspect());
         }
+        mPhoneCallButton = (Button) v.findViewById(R.id.crime_phonecall);
+        mPhoneCallButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri number = Uri.parse("tel:5551234");
+                Intent i = new Intent(Intent.ACTION_DIAL, number);
+                if (CheckIsIntentCanBeResponse.newInstance(getActivity()).isIntentCanBeResponse(i)) {
+                    startActivity(i);
+                }
+            }
+        });
+
         return v;
     }
 
@@ -279,6 +317,7 @@ public class CrimeFragment extends Fragment {
         if (requestCode == REQUEST_DATE && resultCode == Activity.RESULT_OK) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
+            mCallbacks.onCrimeUpdated(mCrime);
             updateDate();
         } else if (requestCode ==REQUEST_PHOTO&&resultCode==Activity.RESULT_OK) {
             //create a new photo obj and attach it to the crime
@@ -287,6 +326,7 @@ public class CrimeFragment extends Fragment {
 //                Log.i(TAG, "filename:" + filename);
                 Photo p =new Photo(filename);
                 mCrime.setPhoto(p);
+                mCallbacks.onCrimeUpdated(mCrime);
                 showPhoto();
                 Log.i(TAG,"Crime:"+mCrime.getTitle()+" has a photo");
             }
@@ -311,6 +351,7 @@ public class CrimeFragment extends Fragment {
             c.moveToFirst();
             String suspect = c.getString(0);
             mCrime.setSuspect(suspect);
+            mCallbacks.onCrimeUpdated(mCrime);
             mSuspectButton.setText(suspect);
             c.close();
         }else {
