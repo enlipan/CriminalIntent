@@ -136,7 +136,7 @@ public class CrimeCameraFragment extends Fragment {
                 //update camera preview size  company with  surface size changed
                 Camera.Parameters parameters = mCamera.getParameters();
 //                Camera.Size s = null;//reset in the next section
-                Camera.Size s = getBestSupportSize(parameters.getSupportedPictureSizes(), width, height);
+                Camera.Size s = getBestSupportSize(parameters.getSupportedPreviewSizes(), width, height);
                 parameters.setPreviewSize(s.width, s.height);
                 s = getBestSupportSize(parameters.getSupportedPictureSizes(), width, height);
                 parameters.setPictureSize(s.width,s.height);
